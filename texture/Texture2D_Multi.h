@@ -52,7 +52,7 @@ Texture2D_Multi<TexType, IntFormat, PixFormat>::Texture2D_Multi(GLuint w, GLuint
 		glTexParameteri(traits<tex2D_Multi>::target, GL_TEXTURE_WRAP_S, wrap_s);
 		glTexParameteri(traits<tex2D_Multi>::target, GL_TEXTURE_WRAP_T, wrap_t);
 
-		glTexImage2DMultisample(traits<tex2D_Array>::target,
+		glTexImage2DMultisample(traits<tex2D_Multi>::target,
 								numSamples,
 								traits<IntFormat>::internal_format,
 								w,
