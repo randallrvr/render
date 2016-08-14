@@ -5,7 +5,7 @@
 #include "imgui_impl_glfw_gl3.h"
 
 // GL3W/GLFW
-#include <GL/glew.h>
+#include <render/gl.h>
 #include <GLFW/glfw3.h>
 #ifdef _MSC_VER
 #undef APIENTRY

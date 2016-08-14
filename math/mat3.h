@@ -9,6 +9,7 @@
 
 //Standard Library Includes
 #include <iostream>
+#include <cstring>
 
 namespace render
 {
