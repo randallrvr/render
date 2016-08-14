@@ -4,8 +4,7 @@
 
 #pragma once
 
-//GLEW Library Include
-#include <GL/glew.h>
+#include <render/gl.h>
 
 namespace render
 {
