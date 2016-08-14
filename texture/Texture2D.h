@@ -198,8 +198,6 @@ Texture2D<TexType, IntFormat, PixFormat>::Texture2D(const string &file) : Textur
 			this->_load(rgba);
 		}
 		this->unbind();
-
-		cerr << "load " << file << "success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 	}
 	else
 	{
@@ -207,45 +205,6 @@ Texture2D<TexType, IntFormat, PixFormat>::Texture2D(const string &file) : Textur
 	}
 
 	stbi_image_free(rgba);
-
-//
-//		//Not totally sure if the first parameter should be traits<PixFormat>::pixel_format or traits<IntFormat>::internal_format
-//#if 1
-//		ilConvertImage(traits<PixFormat>::pixel_format, traits<TexType>::type);
-//#else
-//		ilConvertImage(traits<IntFormat>::internal_format, traits<TexType>::type);
-//#endif
-//		// Get width & height
-//		this->w = ilGetInteger(IL_IMAGE_WIDTH );
-//		this->h = ilGetInteger(IL_IMAGE_HEIGHT);
-//
-//		this->bind();
-//		{
-//			glTexParameteri(traits<tex2D>::target, GL_TEXTURE_MIN_FILTER, texture_base::min_filter);
-//			glTexParameteri(traits<tex2D>::target, GL_TEXTURE_MAG_FILTER, texture_base::mag_filter);
-//			glTexParameteri(traits<tex2D>::target, GL_TEXTURE_WRAP_S, wrap_s);
-//			glTexParameteri(traits<tex2D>::target, GL_TEXTURE_WRAP_T, wrap_t);
-//			this->_load(ilGetData());
-//		}
-//		this->unbind();
-//
-////		cerr << "Loaded Image: \""  << file <<  "\"" << endl;
-//	}
-//	else
-//	{
-//		cerr << "Couldn't load Image: \"" << file << "\"" << endl;
-//		ILenum Error = ilGetError();
-//		if     (Error == IL_COULD_NOT_OPEN_FILE)	cerr << "The file \"" << file << "\" could not be opened. Either the file does not exist or is in use by another process." << endl;
-//		else if(Error == IL_ILLEGAL_OPERATION )		cerr << "There is currently no image bound. Use ilGenImages and ilBindImage before calling this function." << endl;
-//		else if(Error == IL_INVALID_EXTENSION)		cerr << "The file \"" << file << "\" could not be loaded based on extension or header." << endl;
-//		else if(Error == IL_INVALID_PARAM )			cerr << "FileName was not valid. It was most likely NULL." << endl;
-//
-//		assert(!success && "Unable to load texture image");
-//	}
-//
-//	// Because we have already copied image data into texture data
-//	// we can release memory used by image.
-//	ilDeleteImages(1, &imageId);
 }
 //******************************************************************************
 //Load***************** *********************************************************
