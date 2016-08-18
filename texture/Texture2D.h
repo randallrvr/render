@@ -35,7 +35,7 @@ private:
 public:
 
 	//Constructors
-	Texture2D(GLuint, GLuint);
+	Texture2D(GLuint w, GLuint h, GLuint levels = 1);
 	Texture2D(const string &);
 
 	//Load
@@ -151,7 +151,7 @@ public:
 //Constructors******************************************************************
 //******************************************************************************
 template<class TexType, class IntFormat, class PixFormat>
-Texture2D<TexType, IntFormat, PixFormat>::Texture2D(GLuint w, GLuint h) : TextureT<tex2D, TexType, IntFormat, PixFormat>()
+Texture2D<TexType, IntFormat, PixFormat>::Texture2D(GLuint w, GLuint h, GLuint levels) : TextureT<tex2D, TexType, IntFormat, PixFormat>(levels)
 {
 	this->w = w;
 	this->h = h;
