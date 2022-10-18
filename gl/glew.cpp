@@ -30,7 +30,7 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <GL/glew.h>
+#include <gl/glew.h>
 
 #if defined(_WIN32)
 #  include <GL/wglew.h>

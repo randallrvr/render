@@ -5,5 +5,5 @@
 #pragma once
 
 #include "../time/Profiler.h"
-#include "../time/timer.h"
+#include "../time/Timer.h"
 
