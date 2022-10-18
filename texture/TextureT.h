@@ -48,8 +48,6 @@ public:
 	GLuint min_filter;		//GL_NEAREST, GL_LINEAR
 	GLuint mag_filter;		//GL_NEAREST, GL_LINEAR
 
-	GLuint levels;
-
 public:
 	//Bind/Unbind
 	void   bind();
@@ -67,7 +65,7 @@ private:
 public:
 
 	//Constructors
-	TextureT(GLuint levels = 1);
+	TextureT();
 
 	//Begin/End
 	void begin();
@@ -77,9 +75,6 @@ public:
 	void set_min_filter(GLuint);
 	void set_mag_filter(GLuint);
 	void set_filter(GLuint);
-
-	// Texture/Image Handles
-	void initHandles();
 
 	void load_data(TexType *);
 
@@ -105,6 +100,7 @@ public:
 			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
 			glTexParameterf(traits<TexTarget>::target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
 		}
+		this->unbind();
 	}
 
 	void genMipmap()
@@ -137,12 +133,10 @@ public:
 //Constructors******************************************************************
 //******************************************************************************
 template<class TexTarget, class TexType, class IntFormat, class PixFormat>
-TextureT<TexTarget, TexType, IntFormat, PixFormat>::TextureT(GLuint levels) : Texture()
+TextureT<TexTarget, TexType, IntFormat, PixFormat>::TextureT() : Texture()
 {
 	min_filter = GL_LINEAR;	//GL_NEAREST;
 	mag_filter = GL_LINEAR;	//GL_NEAREST;
-
-	this->levels = levels;
 }
 //******************************************************************************
 //Bind**************************************************************************
@@ -224,29 +218,6 @@ template<class TexTarget, class TexType, class IntFormat, class PixFormat>
 GLuint TextureT<TexTarget, TexType, IntFormat, PixFormat>::target()
 {
 	return(traits<TexTarget>::target);
-}
-//******************************************************************************
-// Initialize texture/image Handles ********************************************
-//******************************************************************************
-template<class TexTarget, class TexType, class IntFormat, class PixFormat>
-void TextureT<TexTarget, TexType, IntFormat, PixFormat>::initHandles()
-{
-	Texture::texHandle = 0;
-#ifndef __APPLE__
-	// Texture Handles
-	Texture::texHandle = glGetTextureHandleARB(Texture::tex_id);
-	glMakeTextureHandleResidentARB(Texture::texHandle);
-
-	// Image Handles
-	GLuint64 imgHandle = 0;
-	GLenum format = traits<IntFormat>::internal_format;
-	for(int level = 0; level < (int)levels; level++)
-	{
-		imgHandle = glGetImageHandleARB(Texture::tex_id, 0, GL_TRUE, 0, format);
-		glMakeImageHandleResidentARB(imgHandle, GL_READ_WRITE);
-		Texture::imgHandles.push_back(imgHandle);
-	}
-#endif
 }
 
 };

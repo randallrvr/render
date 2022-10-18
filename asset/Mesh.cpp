@@ -21,11 +21,11 @@ asset::Mesh::Mesh()
 	index_buffer     = NULL;
 	material_buffer  = NULL;
 
-
 	diffuseTex        = NULL;
-//	ambientTex        = NULL;
+	ambientTex        = NULL;
+	specularTex       = NULL;
 	normalTex         = NULL;
-//	maskTex           = NULL;
+	maskTex           = NULL;
 
 	numFaces = 0;
 	numVerts = 0;

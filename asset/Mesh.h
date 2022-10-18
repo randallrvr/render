@@ -41,30 +41,33 @@ typedef texture::Texture2D<GLubyte, texture::alpha8, texture::alpha> MaskTex;
 class Mesh
 {
 public:
-	struct Material {
+	struct Material
+	{
 		vec4f diffuse;
 		vec4f ambient;
 		vec4f specular;
 		vec4f emissive;
 		float shininess;
-		GLuint hasDiffuseTex;
-//		GLuint hasAmbientTex;
-		GLuint hasSpecularTex;
-		GLuint hasNormalTex;
+		bool hasDiffuseTex  = false;
+		bool hasAmbientTex  = false;
+		bool hasSpecularTex = false;
+		bool hasNormalTex   = false;
+		bool hasMaskTex     = false;
 		GLuint texCount;
 
-		DiffuseTex *diffuse_tex;
-//		AmbientTex  *ambient_tex;
+		DiffuseTex  *diffuse_tex;
+		AmbientTex  *ambient_tex;
 		SpecularTex *specular_tex;
-		NormalTex *normal_tex;
-//		MaskTex     *mask_tex;
+		NormalTex   *normal_tex;
+		MaskTex     *mask_tex;
 
-		Material() {
-			diffuse_tex = NULL;
-//			ambient_tex  = NULL;
+		Material()
+		{
+			diffuse_tex  = NULL;
+			ambient_tex  = NULL;
 			specular_tex = NULL;
-			normal_tex = NULL;
-//			mask_tex     = NULL;
+			normal_tex   = NULL;
+			mask_tex     = NULL;
 		}
 	};
 
@@ -103,11 +106,11 @@ public:
 	TextureBuffer *texture_buffer;
 
 
-	DiffuseTex *diffuseTex;
-	AmbientTex *ambientTex;
-	NormalTex *normalTex;
+	DiffuseTex  *diffuseTex;
+	AmbientTex  *ambientTex;
+	NormalTex   *normalTex;
 	SpecularTex *specularTex;
-//	MaskTex     *maskTex;
+	MaskTex     *maskTex;
 
 	void loadIndices(const aiMesh *ai_mesh);
 

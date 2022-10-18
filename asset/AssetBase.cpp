@@ -224,21 +224,21 @@ Mesh::Material AssetBase::loadMaterial(aiMaterial *ai_material)
 	aiColor4D ai_color;
 	aiString ai_string;
 
-//	cerr << endl;
-//	if(ai_material->Get(AI_MATKEY_NAME,                    ai_string) == AI_SUCCESS)	cerr << "AI_MATKEY_NAME,                   " << string(ai_string.data) << endl;
-//	if(ai_material->GetTexture(aiTextureType_NONE,         texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_NONE,        " << endl;
-//	if(ai_material->GetTexture(aiTextureType_DIFFUSE,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_DIFFUSE,     " << endl;
-//	if(ai_material->GetTexture(aiTextureType_SPECULAR,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_SPECULAR,    " << endl;
-//	if(ai_material->GetTexture(aiTextureType_AMBIENT,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_AMBIENT,     " << endl;
-//	if(ai_material->GetTexture(aiTextureType_EMISSIVE,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_EMISSIVE,    " << endl;
-//	if(ai_material->GetTexture(aiTextureType_HEIGHT,       texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_HEIGHT,      " << endl;
-//	if(ai_material->GetTexture(aiTextureType_NORMALS,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_NORMALS,     " << endl;
-//	if(ai_material->GetTexture(aiTextureType_SHININESS,    texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_SHININESS,   " << endl;
-//	if(ai_material->GetTexture(aiTextureType_OPACITY,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_OPACITY,     " << endl;
-//	if(ai_material->GetTexture(aiTextureType_DISPLACEMENT, texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_DISPLACEMENT," << endl;
-//	if(ai_material->GetTexture(aiTextureType_LIGHTMAP,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_LIGHTMAP,    " << endl;
-//	if(ai_material->GetTexture(aiTextureType_REFLECTION,   texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_REFLECTION,  " << endl;
-//	if(ai_material->GetTexture(aiTextureType_UNKNOWN,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_UNKNOWN,     " << endl;
+	cerr << endl;
+	if(ai_material->Get(AI_MATKEY_NAME,                    ai_string) == AI_SUCCESS)	cerr << "AI_MATKEY_NAME,                   " << string(ai_string.data) << endl;
+	if(ai_material->GetTexture(aiTextureType_NONE,         texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_NONE,        " << endl;
+	if(ai_material->GetTexture(aiTextureType_DIFFUSE,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_DIFFUSE,     " << endl;
+	if(ai_material->GetTexture(aiTextureType_SPECULAR,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_SPECULAR,    " << endl;
+	if(ai_material->GetTexture(aiTextureType_AMBIENT,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_AMBIENT,     " << endl;
+	if(ai_material->GetTexture(aiTextureType_EMISSIVE,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_EMISSIVE,    " << endl;
+	if(ai_material->GetTexture(aiTextureType_HEIGHT,       texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_HEIGHT,      " << endl;
+	if(ai_material->GetTexture(aiTextureType_NORMALS,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_NORMALS,     " << endl;
+	if(ai_material->GetTexture(aiTextureType_SHININESS,    texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_SHININESS,   " << endl;
+	if(ai_material->GetTexture(aiTextureType_OPACITY,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_OPACITY,     " << endl;
+	if(ai_material->GetTexture(aiTextureType_DISPLACEMENT, texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_DISPLACEMENT," << endl;
+	if(ai_material->GetTexture(aiTextureType_LIGHTMAP,     texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_LIGHTMAP,    " << endl;
+	if(ai_material->GetTexture(aiTextureType_REFLECTION,   texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_REFLECTION,  " << endl;
+	if(ai_material->GetTexture(aiTextureType_UNKNOWN,      texIndex, &path) == AI_SUCCESS) cerr << "aiTextureType_UNKNOWN,     " << endl;
 
 	material.diffuse  = vec4f(0.8f, 0.8f, 0.8f, 1.0f);	//default values
 	material.ambient  = vec4f(0.2f, 0.2f, 0.2f, 1.0f);	//default values
@@ -274,21 +274,22 @@ Mesh::Material AssetBase::loadMaterial(aiMaterial *ai_material)
 
 	material.specular_tex = (ai_material->GetTexture(aiTextureType_SPECULAR, texIndex, &path) == AI_SUCCESS) ? loadSpecularTex(string(path.data)) : NULL;
 	material.diffuse_tex  = (ai_material->GetTexture(aiTextureType_DIFFUSE,  texIndex, &path) == AI_SUCCESS) ? loadDiffuseTex(string(path.data))  : NULL;
+	material.ambient_tex  = (ai_material->GetTexture(aiTextureType_AMBIENT,  texIndex, &path) == AI_SUCCESS) ? loadAmbientTex(string(path.data))  : NULL;
 	material.normal_tex   = (ai_material->GetTexture(aiTextureType_HEIGHT,   texIndex, &path) == AI_SUCCESS) ? loadNormalTex(string(path.data))   : NULL;
 
+	material.hasAmbientTex  = GLuint(material.ambient_tex  != NULL);
+	material.hasMaskTex     = GLuint(material.mask_tex     != NULL);
 	material.hasDiffuseTex  = GLuint(material.diffuse_tex  != NULL);
 	material.hasNormalTex   = GLuint(material.normal_tex   != NULL);
 	material.hasSpecularTex = GLuint(material.specular_tex != NULL);
-	material.texCount = material.hasDiffuseTex + material.hasNormalTex + material.hasSpecularTex;
+	material.texCount = material.hasDiffuseTex +
+			material.hasNormalTex +
+			material.hasSpecularTex +
+			material.hasAmbientTex +
+			material.hasMaskTex;
 
 	float shininess = 0.0;	//default value;
-//	uint max;
-//	if(ai_material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
-//	{
-//		cerr << "shininess: " << shininess << endl;	
-//	}
-//	material.emissive = vec4f(&(ai_color[0]));
-//	aiGetMaterialFloatArray(ai_material, AI_MATKEY_SHININESS, &shininess, &max);
+	if(ai_material->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS) {	cerr << "shininess: " << shininess << endl;	}
 	material.shininess = shininess;
 
 	return material;
@@ -307,9 +308,10 @@ asset::SpecularTex *AssetBase::loadSpecularTex(const string &filename)
 	//orientation, origin, etc... Could load explicitly and then load data
 	//into the texture
 	texture = new SpecularTex(fullname);
+	texture->set_filter(GL_LINEAR_MIPMAP_LINEAR);
 
-	texture->setMaxAnisotropy();
 	texture->genMipmap();
+	texture->setMaxAnisotropy();
 
 	return texture;
 }
@@ -325,9 +327,10 @@ asset::DiffuseTex *AssetBase::loadDiffuseTex(const string &filename)
 	//orientation, origin, etc... Could load explicitly and then load data
 	//into the texture
 	texture = new DiffuseTex(fullname);
+	texture->set_filter(GL_LINEAR_MIPMAP_LINEAR);
 
-	texture->setMaxAnisotropy();
 	texture->genMipmap();
+	texture->setMaxAnisotropy();
 
 	return texture;
 }
@@ -343,9 +346,10 @@ asset::AmbientTex *AssetBase::loadAmbientTex(const string &filename)
 	//orientation, origin, etc... Could load explicitly and then load data
 	//into the texture
 	texture = new AmbientTex(fullname);
+	texture->set_filter(GL_LINEAR_MIPMAP_LINEAR);
 
-	texture->setMaxAnisotropy();
 	texture->genMipmap();
+	texture->setMaxAnisotropy();
 
 	return texture;
 }
@@ -361,6 +365,7 @@ asset::NormalTex *AssetBase::loadNormalTex(const string &filename)
 	//orientation, origin, etc... Could load explicitly and then load data
 	//into the texture
 	texture = new NormalTex(fullname);
+	texture->set_filter(GL_LINEAR_MIPMAP_LINEAR);
 
 	texture->setMaxAnisotropy();
 	texture->genMipmap();
@@ -379,6 +384,7 @@ asset::MaskTex *AssetBase::loadMaskTex(const string &filename)
 	//orientation, origin, etc... Could load explicitly and then load data
 	//into the texture
 	texture = new MaskTex(fullname);
+	texture->set_filter(GL_LINEAR_MIPMAP_LINEAR);
 
 	texture->setMaxAnisotropy();
 	texture->genMipmap();

@@ -25,7 +25,6 @@ protected:
 	//ID
 	GLuint   tex_id;
 
-
 public:
 	Texture();
 	Texture(const string &);
@@ -45,6 +44,8 @@ public:
 	//Enable/Disable
 //	virtual void enable(GLuint)  = 0;
 //	virtual void disable() = 0;
+
+	GLuint64 getHandle();
 	
 };
 // End class Texture
